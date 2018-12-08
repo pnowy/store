@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/store
+    username: store
+    password: store
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    show-sql: true
+    properties:
+      hibernate:
+          lob:
+            non_contextual_creation: true
+  h2:
+    console:
+      enabled: false

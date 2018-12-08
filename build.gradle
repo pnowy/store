@@ -20,6 +20,10 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	testCompile.exclude group: "junit", module: "junit"
+}
+
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-actuator')
 	implementation('org.springframework.boot:spring-boot-starter-cache')
@@ -29,17 +33,30 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('org.liquibase:liquibase-core')
 	compile "com.google.guava:guava:${guavaVersion}"
+	compile "org.apache.commons:commons-lang3:${apacheCommonsVersion}"
+	compile "org.javers:javers-spring-boot-starter-sql:${javersVersion}"
 
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 
-	compile group: 'org.javassist', name: 'javassist', version: '3.24.0-GA'
-
-	compile "org.hibernate:hibernate-envers:${hibernateEnversVersion}"
 	compile "com.zaxxer:HikariCP:${hikariDbPoolVersion}"
 	runtimeOnly('org.postgresql:postgresql')
 	runtimeOnly('com.h2database:h2')
-	compileOnly('org.projectlombok:lombok')
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation("org.junit.jupiter:junit-jupiter-api:${jUnitJupiterVersion}")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:${jUnitJupiterVersion}")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${jUnitJupiterVersion}")
 	testCompile "org.assertj:assertj-core:${assertJVersion}"
+}
+
+test {
+	useJUnitPlatform()
+
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+
+	reports {
+		html.enabled = true
+	}
 }

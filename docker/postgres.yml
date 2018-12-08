@@ -1,0 +1,11 @@
+version: '2'
+services:
+  starter-postgresql:
+    image: postgres:10.4
+    volumes:
+    - ./data/starter/postgresql/:/var/lib/postgresql/data/
+    environment:
+    - POSTGRES_USER=store
+    - POSTGRES_PASSWORD=store
+    ports:
+    - 5432:5432

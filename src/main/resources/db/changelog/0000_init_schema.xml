@@ -9,20 +9,17 @@
 
     <!-- HIBERNATE ENVERS REVISION INFO TABLE -->
     <changeSet id="0000" author="pnowy">
-        <createTable tableName="revinfo">
-            <column name="rev" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="revtstmp" type="bigint"/>
-        </createTable>
+        <createSequence sequenceName="hibernate_sequence" startValue="1000" incrementBy="50"/>
     </changeSet>
 
-    <!-- PRODUCT TABLES -->
+    <!-- PRODUCT TABLE -->
     <changeSet id="0001" author="pnowy">
-        <!-- CURRENT ENTITY STATE -->
         <createTable tableName="st_product">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint" >
                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision" type="varchar(36)" >
+                <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
@@ -31,33 +28,6 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-
-        <!-- PRODUCT REVISIONS by HIBERNATE ENVERS -->
-        <createTable tableName="st_product_audit">
-            <column name="id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="rev" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="revtype" type="smallint">
-                <constraints nullable="false" />
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="price" type="decimal">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey tableName="st_product_audit" columnNames="id,rev" />
-        <addForeignKeyConstraint constraintName="fk_product_audit_revinfo"
-                                 baseTableName="st_product_audit" baseColumnNames="rev"
-                                 referencedTableName="revinfo" referencedColumnNames="rev" />
-
     </changeSet>
-
-
 
 </databaseChangeLog>

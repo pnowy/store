@@ -1,31 +1,48 @@
 package com.github.pnowy.store.product.domain;
 
-import org.hibernate.envers.AuditTable;
-import org.hibernate.envers.Audited;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.StringJoiner;
+import java.time.Instant;
 
 @Entity
 @Table(name = "st_product")
-@Audited
-@AuditTable("st_product_audit")
-public class Product {
+public class Product implements Serializable {
+
+    Product() {
+        applyNewRevision();
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    private String revision;
     @NotEmpty
     @Column(nullable = false)
     private String name;
+    @NotNull
     @Positive
     @Column(nullable = false)
     private BigDecimal price;
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRevision() {
+        return revision;
     }
 
     public String getName() {
@@ -44,12 +61,13 @@ public class Product {
         this.price = price;
     }
 
+    void applyNewRevision() {
+        this.revision = String.format("%s_%s", Instant.now().getEpochSecond(), RandomStringUtils.randomAlphanumeric(16));
+    }
+
     @Override
     public String toString() {
-        return new StringJoiner(", ", Product.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
-                .add("price=" + price)
-                .toString();
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }

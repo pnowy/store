@@ -1,12 +1,16 @@
 package com.github.pnowy.store.product.web;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
-public class NewProductReq {
+public class ProductReq {
     @NotEmpty
+    @Size(max = 255)
     private String name;
+    @NotNull
     @Positive
     private BigDecimal price;
 
