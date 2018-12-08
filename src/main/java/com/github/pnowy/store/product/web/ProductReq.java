@@ -7,6 +7,15 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class ProductReq {
+
+    public ProductReq() {
+    }
+
+    public ProductReq(@NotEmpty @Size(max = 255) String name, @NotNull @Positive BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
+
     @NotEmpty
     @Size(max = 255)
     private String name;

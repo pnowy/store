@@ -20,6 +20,13 @@ public class Product implements Serializable {
         applyNewRevision();
     }
 
+    public Product(Long id, String revision, String name, BigDecimal price) {
+        this.id = id;
+        this.revision = revision;
+        this.name = name;
+        this.price = price;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
