@@ -12,7 +12,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.github.pnowy.store'
+group = 'com.github.pnowy'
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -28,9 +28,13 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-validation')
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('org.liquibase:liquibase-core')
+	compile "com.google.guava:guava:${guavaVersion}"
 
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 
+	compile group: 'org.javassist', name: 'javassist', version: '3.24.0-GA'
+
+	compile "org.hibernate:hibernate-envers:${hibernateEnversVersion}"
 	compile "com.zaxxer:HikariCP:${hikariDbPoolVersion}"
 	runtimeOnly('org.postgresql:postgresql')
 	runtimeOnly('com.h2database:h2')
