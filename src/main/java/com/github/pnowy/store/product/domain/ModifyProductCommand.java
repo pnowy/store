@@ -1,11 +1,9 @@
 package com.github.pnowy.store.product.domain;
 
-import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -20,14 +18,16 @@ public class ModifyProductCommand {
         this.price = requireNonNull(price);
     }
 
-    void applyState(Product product) {
-        Preconditions.checkArgument(Objects.equals(getId(), product.getId()), "Cannot apply state for different product that planned");
-        product.setPrice(this.price);
-        product.setName(this.name);
-    }
-
     Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
     }
 
     @Override

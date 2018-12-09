@@ -11,18 +11,21 @@ import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Objects;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @Entity
 @Table(name = "st_product")
 public class Product implements Serializable {
 
-    Product() {
-        applyNewRevision();
+    public Product() {
+        setNewRevision();
     }
 
-    public Product(Long id, String revision, String name, BigDecimal price) {
+    public Product(Long id, String name, BigDecimal price) {
+        this();
         this.id = id;
-        this.revision = revision;
         this.name = name;
         this.price = price;
     }
@@ -39,6 +42,23 @@ public class Product implements Serializable {
     @Positive
     @Column(nullable = false)
     private BigDecimal price;
+
+    private void setNewRevision() {
+        this.revision = String.format("%s_%s", Instant.now().getEpochSecond(), RandomStringUtils.randomAlphanumeric(16));
+    }
+
+    void handle(NewProductCommand command) {
+        checkArgument(Objects.isNull(getId()), "Cannot apply state for persisted product!");
+        setPrice(command.getPrice());
+        setName(command.getName());
+    }
+
+    void handle(ModifyProductCommand command) {
+        checkArgument(Objects.equals(getId(), command.getId()), "Cannot apply state for different product that expected based on command");
+        setPrice(command.getPrice());
+        setName(command.getName());
+        setNewRevision();
+    }
 
     public Long getId() {
         return id;
@@ -66,10 +86,6 @@ public class Product implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    void applyNewRevision() {
-        this.revision = String.format("%s_%s", Instant.now().getEpochSecond(), RandomStringUtils.randomAlphanumeric(16));
     }
 
     @Override

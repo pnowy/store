@@ -2,5 +2,5 @@ package com.github.pnowy.store.product.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }

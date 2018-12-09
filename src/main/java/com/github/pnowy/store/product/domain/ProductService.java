@@ -27,7 +27,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final Javers javers;
 
-    ProductService(ProductRepository productRepository, Javers javers) {
+    public ProductService(ProductRepository productRepository, Javers javers) {
         this.productRepository = productRepository;
         this.javers = javers;
     }
@@ -35,7 +35,7 @@ public class ProductService {
     @Transactional
     public Product createProduct(NewProductCommand command) {
         final Product product = new Product();
-        command.applyState(product);
+        product.handle(command);
         final Product savedProduct = productRepository.save(product);
         javers.commit(AUTHOR, savedProduct, ImmutableMap.of(REVISION_PROPERTY, savedProduct.getRevision()));
         log.info("Product creation. Product id={}, revision id={}", savedProduct.getId(), savedProduct.getRevision());
@@ -45,8 +45,7 @@ public class ProductService {
     @Transactional
     public Product updateProduct(ModifyProductCommand command) {
         final Product product = getProduct(command.getId());
-        command.applyState(product);
-        product.applyNewRevision();
+        product.handle(command);
         final Product savedProduct = productRepository.save(product);
         javers.commit(AUTHOR, savedProduct, ImmutableMap.of(REVISION_PROPERTY, savedProduct.getRevision()));
         log.info("Product update. Product id={}, revision id={}", savedProduct.getId(), savedProduct.getRevision());
