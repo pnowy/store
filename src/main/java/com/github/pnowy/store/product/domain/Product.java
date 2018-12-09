@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Table(name = "st_product")
 public class Product implements Serializable {
 
-    public Product() {
+    Product() {
         setNewRevision();
     }
 

@@ -12,9 +12,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -59,7 +62,20 @@ class OrderServiceTest {
         final OrderAggregateRoot orderAggregateRoot = orderService.getOrder(createdRoot.getId());
         assertThat(orderAggregateRoot).isNotNull();
         assertThat(orderAggregateRoot.getTotalPrice()).isEqualTo(totalPriceOfAvailableItems);
-        assertThat(orderAggregateRoot.getCreatedDate()).isBefore(Instant.now());
+        assertThat(orderAggregateRoot.getCreatedDate()).isBefore(LocalDateTime.now());
+    }
+
+    @Test
+    void shouldFindOrders() {
+        // setup
+        final CreateOrderCommand createOrderCommand = new CreateOrderCommand("pnowy@localhost.com", availableItems.stream().map(Product::getId).collect(Collectors.toList()));
+        orderService.createOrder(createOrderCommand);
+
+        // when
+        final Collection<OrderAggregateRoot> orders = orderService.searchOrders(LocalDateTime.now().minusDays(7), LocalDateTime.now());
+
+        // then
+        assertThat(orders).hasSize(1);
     }
 
     private void updateProductPrice() {

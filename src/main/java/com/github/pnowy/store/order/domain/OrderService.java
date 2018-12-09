@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -34,6 +37,14 @@ public class OrderService {
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("The product with id %s has not been found!", id)));
         return OrderAggregateRoot.of(order, productService);
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<OrderAggregateRoot> searchOrders(LocalDateTime from, LocalDateTime to) {
+        final Collection<Order> orders = orderRepository.findByCreatedDateAfterAndCreatedDateBefore(from, to);
+        return orders.stream()
+                .map(order -> OrderAggregateRoot.of(order, productService))
+                .collect(Collectors.toList());
     }
 
 

@@ -4,13 +4,13 @@ import com.github.pnowy.store.order.domain.OrderAggregateRoot;
 import com.github.pnowy.store.product.web.ProductRes;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class OrderRes {
 
-    public OrderRes(OrderAggregateRoot aggregateRoot) {
+    OrderRes(OrderAggregateRoot aggregateRoot) {
         this.id = aggregateRoot.getId();
         this.createdDate = aggregateRoot.getCreatedDate();
         this.customerEmail = aggregateRoot.getCustomerEmail();
@@ -19,7 +19,7 @@ public class OrderRes {
     }
 
     private Long id;
-    private Instant createdDate;
+    private LocalDateTime createdDate;
     private String customerEmail;
     private BigDecimal totalPrice;
     private Collection<ProductRes> products;
@@ -28,7 +28,7 @@ public class OrderRes {
         return id;
     }
 
-    public Instant getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 

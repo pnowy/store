@@ -3,12 +3,11 @@ package com.github.pnowy.store.order.domain;
 import com.github.pnowy.store.product.domain.Product;
 import com.github.pnowy.store.product.domain.ProductService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public class OrderAggregateRoot implements Serializable {
     private Long id;
     private String customerEmail;
     private BigDecimal totalPrice;
-    private Instant createdDate;
+    private LocalDateTime createdDate;
     private List<Product> products;
 
     static OrderAggregateRoot of(CreateOrderCommand command, ProductService productService) {
@@ -75,7 +74,7 @@ public class OrderAggregateRoot implements Serializable {
         return totalPrice;
     }
 
-    public Instant getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 

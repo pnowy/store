@@ -51,12 +51,16 @@
     <changeSet id="0003" author="pnowy">
         <createTable tableName="st_order_product">
             <column name="order_id" type="bigint" >
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="product_revision" type="varchar(36)" >
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <addForeignKeyConstraint baseTableName="st_order_product" baseColumnNames="order_id"
+                                 constraintName="fk_order_product_to_order"
+                                 referencedTableName="st_order" referencedColumnNames="id" />
     </changeSet>
 
 </databaseChangeLog>
