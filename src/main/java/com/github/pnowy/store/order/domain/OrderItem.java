@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Embeddable
 public class OrderItem implements Serializable {
 
+    @SuppressWarnings("unused")
     public OrderItem() {
     }
 

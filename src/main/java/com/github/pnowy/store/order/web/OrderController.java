@@ -42,7 +42,7 @@ public class OrderController {
         final LocalDateTime toDate = to.orElse(LocalDateTime.now());
 
         if (toDate.isBefore(fromDate)) {
-            throw new IllegalDateRageException("The from date must be before date to");
+            throw new IllegalDateRangeException("The from date must be before date to");
         }
         final List<OrderRes> ordersList = orderService.searchOrders(fromDate, toDate)
                 .stream()

@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class OrderAggregateRoot implements Serializable {
 
@@ -31,7 +31,7 @@ public class OrderAggregateRoot implements Serializable {
                 .stream()
                 .map(productService::getProduct)
                 .collect(Collectors.toList());
-        checkState(!productsToPlace.isEmpty(), "The products are required to place the order!");
+        checkArgument(!productsToPlace.isEmpty(), "The products are required to place the order!");
         aggregateRoot.customerEmail = command.getCustomerEmail();
         aggregateRoot.products = productsToPlace;
         return aggregateRoot;
