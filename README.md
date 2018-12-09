@@ -25,7 +25,7 @@ In order to build & runt the application use the following command:
 
 The application will run on embedded Tomcat server on port 8080.
 
-You could check it by open: `http://localhost:8080/actuator/health` or `curl http://localhost:8080/actuator/health`.
+You could check it by open: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health) or `curl http://localhost:8080/actuator/health`.
 
 You should receive the following response:
 
@@ -38,6 +38,10 @@ You should receive the following response:
 ##### H2 Console
 
 The application on default (developer) configuration expose H2 console. You will find it under: `http://localhost:8080/h2-console`
+
+##### API documentation
+
+The API documentation is exposed under: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) by Swagger project.
 
 ## How to use postgres SQL
 
@@ -66,3 +70,5 @@ In order to use it on production please prepare the production configuration.
 
 For product versioning the Javers library is used. For this purpose you could also use Hibernate Envers (but it is designed 
 only for ORM) or create own solution (which could be desired from performance and model perspective).
+
+For API documentation you could also use Spring Rest Docs project.
