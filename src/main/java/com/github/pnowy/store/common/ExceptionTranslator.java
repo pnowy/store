@@ -1,6 +1,6 @@
 package com.github.pnowy.store.common;
 
-import com.github.pnowy.store.order.web.IllegalDateRageException;
+import com.github.pnowy.store.order.web.IllegalDateRangeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +18,7 @@ public class ExceptionTranslator {
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "The date to must be after date from.")
-    @ExceptionHandler(IllegalDateRageException.class)
+    @ExceptionHandler(IllegalDateRangeException.class)
     public void illegalDateRage() {}
 
 }
