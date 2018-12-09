@@ -15,6 +15,8 @@ The following technologies are used for the project:
 - Javers library for product versioning
 - JUnit 5.X / SpringBooot Test / AssertJ
 
+The JDK 8 or higher version is required.
+
 ## How to build & run the application
 
 By default application use H2 database (file based).
